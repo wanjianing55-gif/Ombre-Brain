@@ -99,6 +99,14 @@ hooks:
 storage:
   external_change_poll_seconds: 1.0  # 0 = check every list; env: OMBRE_EXTERNAL_CHANGE_POLL_SECONDS
 
+# --- Photo memories / 照片记忆 ---
+# hold(media=...) / trace(media_append=...) / Dashboard 上传会把原图存进 <数据目录>/_media。
+# media_read_tool: true 时 /mcp 多暴露一个 media_read 工具：列照片索引、按 ref 读回原图
+# （JPEG/PNG/GIF/WebP，校验 SHA-256）。默认关闭，基础工具保持 16 个；改动需重启。
+# env: OMBRE_MEDIA_READ_TOOL
+media_read_tool: false
+media_read_max_bytes: 5242880  # 单次读回原图上限（5 MiB）；超过的仍完整保存在磁盘上
+
 # --- Merge threshold / 桶合并阈值 ---
 # When storing a new memory, if similarity with an existing bucket exceeds
 # this value (0-100), merge instead of creating a new one

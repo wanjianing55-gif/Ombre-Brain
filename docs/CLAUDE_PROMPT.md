@@ -240,6 +240,16 @@ permanent）③你的 active plans ④按 token 预算折叠的 feel 历史 ⑤c
 - 意识到自己某种局限，或某件事上比以前更清晰了
 - 想给下一个自己留一条关于「我是谁」的信
 
+#### `media_read(ref, query, bucket_id, limit)` — 我重新看一眼那张照片（可选）
+
+只有在设置里开了 `media_read_tool` 时才有这个工具；没看到它就是没开，不要假装能看照片。
+
+- 照片挂在记忆上。`breath` / `breath_search` 返回里的 `🖼️ media: _media/…` 那一行，就是这条记忆带着照片。
+- `media_read(query="海边")` — 列照片索引：每行一个 `ref`、所在记忆和照片标题/备注。关键词同时匹配记忆正文与照片标题/备注。
+- `media_read(ref="3fd6e6be528c")` — 读回**原图本身**（不是文字摘要），会校验 SHA-256。`ref` 也可以直接用 `🖼️ media:` 后面的路径。
+- 只在真的需要看照片时才读——原图很占上下文。文字能回答的问题，先用记忆正文回答。
+- 存照片：用户发了照片又希望我记住时，先 `hold` 写下这件事（写清楚照片里有什么、为什么重要），把返回的 bucket_id 告诉用户，请对方在 Dashboard 上传原图挂到这条记忆上。我拿不到对话里图片的原始字节，不要试着自己拼 `data_base64`。
+
 ---
 
 ## hold vs grow vs plan vs letter vs I — 怎么选
