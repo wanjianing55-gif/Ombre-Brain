@@ -22,7 +22,27 @@
 判断是否安全只有一条：**能在宿主机 / 平台磁盘上看到这些 `.md` 和照片文件**。容器重建、`git pull`、
 代码更新都不会碰这个目录；只有「没挂持久盘」或手动删目录才会丢。
 
-## 1. 两条推荐路线（二选一）
+## 1. 现在用的方案：Mac 本地 + Claude Code（不用 Docker、不用 API Key）
+
+```bash
+brew install uv                       # 一次性；提供 Python 3.12（macOS 自带的是 3.9）
+git clone -b claude/ombre-brain-setup-j7revo https://github.com/wanjianing55-gif/Ombre-Brain.git
+cd Ombre-Brain
+./deploy/mac_local.sh setup           # 建 .venv、装依赖、建 ~/OmbreBrain、生成本机 Token
+./deploy/mac_local.sh start           # 只监听 127.0.0.1:18001
+./deploy/mac_local.sh smoke           # 自测：文字保存/搜索 + 照片存入/media_read 读回
+./deploy/mac_local.sh smoke ~/Desktop/某张照片.jpg   # 用你自己的照片再测一次
+./deploy/mac_local.sh claude          # 打印 claude mcp add 命令，复制执行
+```
+
+- 数据全部在 `~/OmbreBrain`：记忆 `.md`、照片 `_media/`、配置。重启电脑、`git pull` 都不会动它。
+- 没有 API Key 时：记忆逐字保存，但不自动打标签（主题显示「未分类」）；搜索只走关键词/BM25，没有语义检索。
+- 在 Claude Code 里存照片：让 Claude 先把照片复制到 `/tmp`，再 `hold(content=..., media=["/tmp/xx.jpg"])`
+  （服务端只从临时目录收文件，防止一次调用读走任意文件）。也可以浏览器打开 `http://127.0.0.1:18001/media` 上传。
+- iPhone 的 HEIC 先转换：`sips -s format jpeg in.heic --out out.jpg`。
+- 电脑重启后需再执行一次 `./deploy/mac_local.sh start`。
+
+## 1b. 以后想要一直在线 / 手机也能用：两条路线（二选一）
 
 | | A. 自己的电脑 / NAS + Cloudflare Tunnel | B. Render Starter |
 |---|---|---|
@@ -61,7 +81,7 @@ Public Hostname（例如 `ombre.你的域名`，Service `HTTP` → `localhost:80
 3. 部署完成后：Dashboard `https://<服务名>.onrender.com`，MCP `https://<服务名>.onrender.com/mcp`。
 4. 打开 `/onboarding` → 「公网安全模式」→ 把上面的 https 地址填进「公网连接地址」→ 保存 → 在 Render 里重启一次。
 
-## 2. 连接 Claude
+## 2. 连接 Claude（远程 HTTPS 时）
 
 **Claude.ai（网页 / 手机 / 桌面 App）**：Settings → Connectors → Add custom connector → 填 `https://<你的域名>/mcp`
 → 弹出的是**你自己服务器**的授权页，输入 Dashboard 密码 → 完成。之后每个对话里在工具菜单启用 Ombre Brain。
