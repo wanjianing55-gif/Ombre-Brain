@@ -650,6 +650,19 @@ def load_config(config_path: Optional[str] = None) -> dict:
     except (TypeError, ValueError, OverflowError):
         config["media_max_bytes"] = 25 * 1024 * 1024
 
+    # media_read 默认不注册：基础工具保持 16 个。开启后模型能按 ref 读回原图。
+    media_read_env = os.environ.get("OMBRE_MEDIA_READ_TOOL", "").strip()
+    config["media_read_tool"] = parse_bool(
+        media_read_env if media_read_env else config.get("media_read_tool", False),
+        default=False,
+    )
+    try:
+        config["media_read_max_bytes"] = max(
+            1, int(config.get("media_read_max_bytes") or 5 * 1024 * 1024)
+        )
+    except (TypeError, ValueError, OverflowError):
+        config["media_read_max_bytes"] = 5 * 1024 * 1024
+
     # --- Ensure bucket storage directories exist ---
     # --- 确保记忆桶存储目录存在 ---
     buckets_dir: str = str(config["buckets_dir"])

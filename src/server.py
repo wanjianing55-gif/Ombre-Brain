@@ -74,6 +74,7 @@ from tools import dream as _t_dream
 from tools import i as _t_i
 from tools import them as _t_them
 from tools import you as _t_you
+from tools import media as _t_media
 
 # --- Load config & init logging / 加载配置 & 初始化日志 ---
 config = load_config()
@@ -1286,6 +1287,48 @@ async def I(
     )
 
 
+async def media_read(
+    ref: Optional[str] = "",
+    query: Optional[str] = "",
+    bucket_id: Optional[str] = "",
+    limit: Optional[int] = 20,
+):
+    """照片记忆：列出照片索引，或按 ref 读回原图。
+无 ref=返回照片索引(每行一个 ref + 所在记忆)；query=空格分隔的关键词(匹配记忆标题/标签/正文与照片 title/note)，bucket_id=只看某条记忆上的照片，limit=列出条数(默认 20，最多 50)。
+ref=索引里的 ref(SHA-256 前缀)或 breath 输出里 🖼️ media 后面的路径 → 返回那张原图本身(JPEG/PNG/GIF/WebP，已校验 SHA-256)，不是文字摘要。只在需要真的看照片时才读。
+存照片仍用 hold(media=...) / trace(media_append=...)，或由人从 Dashboard 上传。只读，不改任何记忆。"""
+    images: list = []
+
+    async def _run() -> str:
+        text, loaded = await _t_media.media_read(
+            ref=ref, query=query, bucket_id=bucket_id, limit=limit,
+        )
+        images.extend(loaded)
+        return text
+
+    text = await _with_notice(
+        _run(),
+        op="media_read",
+        args={"ref": ref, "query": query, "bucket_id": bucket_id, "limit": limit},
+    )
+    if not images:
+        return text
+    import base64 as _b64
+    from mcp.types import ImageContent, TextContent
+    return [TextContent(type="text", text=text)] + [
+        ImageContent(type="image", data=_b64.b64encode(data).decode("ascii"), mimeType=mime)
+        for data, mime in images
+    ]
+
+
+# 可选工具：默认不注册，基础工具保持 16 个。开启见 config.media_read_tool /
+# OMBRE_MEDIA_READ_TOOL。启动期一次性决定，改开关需要重启。
+_media_read_enabled = bool(config.get("media_read_tool"))
+if _media_read_enabled:
+    mcp.tool()(media_read)
+    logger.info("media_read 已启用：/mcp 额外暴露照片索引与原图读回工具")
+
+
 # Pydantic 默认的 ``extra=ignore`` 会让拼错的 MCP 参数看似调用成功；
 # 写工具甚至会在未应用客户端目标字段时仍创建记忆。breath 和 trace
 # 已有严格适配层，其余公开工具使用相同边界，并同步 FastMCP
@@ -1321,6 +1364,7 @@ for _strict_tool_name in (
     "letter_read",
     "feel",
     "I",
+    *(("media_read",) if _media_read_enabled else ()),
 ):
     try:
         _forbid_unknown_tool_arguments(_strict_tool_name)

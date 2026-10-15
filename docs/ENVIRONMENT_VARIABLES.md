@@ -24,6 +24,7 @@
 - `OMBRE_BUCKETS_DIR`：`OMBRE_VAULT_DIR` 的旧兼容名。
 - `OMBRE_MEDIA_DIR`：永久媒体目录；默认 `<数据根目录>/_media`。
 - `OMBRE_MEDIA_MAX_BYTES`：单个媒体文件最大字节数，默认 25 MiB。
+- `OMBRE_MEDIA_READ_TOOL`：`true` 时在 `/mcp` 注册可选的 `media_read`（照片索引 + 原图读回）；默认关闭，改动需重启。
 - `OMBRE_CONFIG_PATH`：持久配置文件路径。
 - `OMBRE_CODE_DIR`：容器中持久运行代码目录。
 - `OMBRE_LOG_DIR`：日志目录。

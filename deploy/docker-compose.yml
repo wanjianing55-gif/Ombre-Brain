@@ -50,6 +50,8 @@ services:
       # .env.example 明明写着可以设 AI_NAME，Docker 用户却根本设不上，
       # 带锁 Letter 因为取不到实际关系名而无法创建。
       - AI_NAME=${AI_NAME:-}
+      # 照片记忆：true 时 /mcp 额外暴露 media_read（照片索引 + 原图读回）。
+      - OMBRE_MEDIA_READ_TOOL=${OMBRE_MEDIA_READ_TOOL:-false}
       # Only trust the exact last-hop proxy networks configured by the operator.
       # Keep the loopback-only default; never widen this to 0.0.0.0/0.
       - "OMBRE_TRUSTED_PROXY_CIDRS=${OMBRE_TRUSTED_PROXY_CIDRS:-127.0.0.0/8,::1/128}"

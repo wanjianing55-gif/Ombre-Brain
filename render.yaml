@@ -35,6 +35,9 @@ services:
         value: /opt/render/project/src/buckets
       - key: OMBRE_CONFIG_PATH
         value: /opt/render/project/src/buckets/config.yaml
+      # 照片记忆：在 /mcp 额外暴露 media_read（照片索引 + 原图读回）。见 docs/PHOTO_MEMORY.md
+      - key: OMBRE_MEDIA_READ_TOOL
+        value: "true"
     disk:
       name: ombre-buckets
       mountPath: /opt/render/project/src/buckets

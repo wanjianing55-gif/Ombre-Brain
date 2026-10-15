@@ -562,8 +562,8 @@
     },
     {
       "path": "src/server.py",
-      "sha256": "02107c88da366840c08b98bf8493910c57fb01f7cede781d431d187c914b83ed",
-      "size": 80622
+      "sha256": "bffdba1d442899088562521996664ff72a09208e199da830bbe2e8514abd8838",
+      "size": 82591
     },
     {
       "path": "src/server_app.py",
@@ -721,6 +721,16 @@
       "size": 26729
     },
     {
+      "path": "src/tools/media/__init__.py",
+      "sha256": "3ec714511c8959c1519362511a93e8939a635136c5a4cc0beeaf23109655d5ec",
+      "size": 756
+    },
+    {
+      "path": "src/tools/media/core.py",
+      "sha256": "903a800c8af472421a9b9d3c0696d52535cf0d094d1897a1ed0a9a4d0075f15c",
+      "size": 10249
+    },
+    {
       "path": "src/tools/plan/__init__.py",
       "sha256": "5ffa1511d8f23a13c72632fef980ce4ca303a7cffccf9c908359d5910bbcf174",
       "size": 656
@@ -777,13 +787,13 @@
     },
     {
       "path": "src/utils.py",
-      "sha256": "79d55ee108fb7f2bf05ab2317d47a00cc09369ac149f6bc90c223839c1087efa",
-      "size": 54643
+      "sha256": "b99bcbcbdad9d6b172d3490b89d148f88b8d9e2e3a9a7bfd6b554b778ed449af",
+      "size": 55239
     },
     {
       "path": "src/web/__init__.py",
-      "sha256": "ae65f7e5500dfc63cb2ac7070114a3d8240e9cda1bd77894047b76e3ef8a9f29",
-      "size": 2342
+      "sha256": "d92d9045690d04259d39098d5cdb8dcbf05c82c058ef02ca56eda2cc2094505d",
+      "size": 2397
     },
     {
       "path": "src/web/_shared.py",
@@ -836,6 +846,11 @@
       "size": 20449
     },
     {
+      "path": "src/web/media.py",
+      "sha256": "b9088f36a6cf268da1b77d682b3367875c0c9d6d33112c2f4da1b79502f2e6be",
+      "size": 9547
+    },
+    {
       "path": "src/web/meta.py",
       "sha256": "34a42d611ca96ed25a4deee880ba7af4f1472c8518d28b4ae16a89e8561c4148",
       "size": 68441
@@ -862,8 +877,8 @@
     },
     {
       "path": "src/web/request_limits.py",
-      "sha256": "c7e933753a449913758e4d1279232ef99e2295d902b2139b755d31cec13cd0a0",
-      "size": 6800
+      "sha256": "20252162888f11342894056de0e76b2edd7b6fd85b356254965149c184a74cee",
+      "size": 6921
     },
     {
       "path": "src/web/search.py",

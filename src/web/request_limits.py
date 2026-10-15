@@ -154,6 +154,8 @@ _LARGE_UPLOAD_PATHS = {
     "/api/import/preflight",
     "/api/import/upload",
     "/api/migrate/upload",
+    # 照片原图可达 media_max_bytes（默认 25 MiB）；路由内部自带流式上限。
+    "/api/media/upload",
 }
 
 
